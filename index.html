@@ -4,25 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <style>
-        /* Asegura que el PDF se ajuste bien a la pantalla */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        iframe {
+        /* Ajustar el tamaño para que se vea correctamente en dispositivos móviles */
+        #pdf-container {
             width: 100%;
             height: 100vh;
-            border: none;
+            overflow: auto;
         }
     </style>
 </head>
 <body>
-    <iframe src="ejemplo.pdf" type="application/pdf"></iframe>
+    <div id="pdf-container"></div>
+
+    <script>
+        const url = 'ejemplo.pdf'; // Ruta a tu archivo PDF
+
+        // Cargar el archivo PDF usando PDF.js
+        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+            const pdfDoc = pdfDoc_;
+            const container = document.getElementById('pdf-container');
+
+            // Renderizar la primera página
+            pdfDoc.getPage(1).then(function(page) {
+                const scale = 1.5; // Ajustar la escala si es necesario
+                const viewport = page.getViewport({ scale: scale });
+
+                // Crear un lienzo (canvas) para renderizar la página
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Renderizar la página del PDF en el lienzo
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+
+                // Añadir el lienzo al contenedor
+                container.appendChild(canvas);
+            });
+        });
+    </script>
 </body>
 </html>
+
