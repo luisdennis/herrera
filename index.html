@@ -4,90 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver PDF</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <style>
-        /* Asegurar que el PDF ocupe todo el espacio disponible */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
         #pdf-container {
             width: 100%;
-            height: 100vh;
-            overflow: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        canvas {
-            max-width: 100%;
-            max-height: 100%;
+            height: 600px;
+            margin: 0 auto;
         }
         a {
-            position: absolute;
-            color: blue;
-            text-decoration: underline;
-            z-index: 10;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+            display: inline-block;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="pdf-container"></div>
+    <h1>Ver PDF sin Renderizado</h1>
+    <div id="pdf-container">
+        <!-- Usando <iframe> para mostrar el PDF -->
+        <!-- Usar el visor nativo del navegador -->
+        <iframe src="ejemplo.pdf" width="100%" height="600px"></iframe>
 
-    <script>
-        const url = 'ejemplo.pdf'; // Ruta a tu archivo PDF
+        <!-- Alternativa con <object> -->
+        <!-- <object data="ejemplo.pdf" type="application/pdf" width="100%" height="600px">
+            <p>Tu navegador no soporta la visualización de PDF. Por favor, descarga el archivo PDF para verlo.</p>
+        </object> -->
 
-        // Cargar el archivo PDF usando PDF.js
-        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
-            const pdfDoc = pdfDoc_;
-            const container = document.getElementById('pdf-container');
+        <!-- Alternativa con <embed> -->
+        <!-- <embed src="ejemplo.pdf" type="application/pdf" width="100%" height="600px"> -->
+    </div>
 
-            // Función para renderizar las páginas
-            function renderPage(pageNum) {
-                pdfDoc.getPage(pageNum).then(function(page) {
-                    const scale = 1.5;  // Ajusta la escala para hacer el PDF más visible
-                    const viewport = page.getViewport({ scale: scale });  // Vista con escala ajustada
-
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    // Renderizar la página del PDF en el lienzo
-                    page.render({
-                        canvasContext: context,
-                        viewport: viewport
-                    });
-
-                    // Añadir el lienzo al contenedor
-                    container.innerHTML = '';  // Limpiar contenido previo
-                    container.appendChild(canvas);
-
-                    // Detectar y hacer los enlaces clickeables
-                    page.getAnnotations().then(function(annotations) {
-                        annotations.forEach(function(annotation) {
-                            if (annotation.subtype === 'Link') {
-                                // Hacer el enlace clickeable
-                                const link = document.createElement('a');
-                                link.href = annotation.url;
-                                link.target = "_blank"; // Abrir en nueva pestaña
-                                link.textContent = annotation.url;
-                                link.style.position = 'absolute';
-                                link.style.left = `${annotation.rect[0]}px`;
-                                link.style.top = `${annotation.rect[1]}px`;
-                                link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
-                                link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
-                                container.appendChild(link);
-                            }
-                        });
-                    });
-                });
-            }
-
-            // Renderizar la primera página
-            renderPage(1);
-        }).catch(function(error) {
-            console.error('Error cargando el PDF: ', error);
-        });
-    </script>
+    <!-- Enlace para descargar el archivo PDF -->
+    <a href="ejemplo.pdf" download>Descargar el PDF</a>
 </body>
 </html>
+
 
 
 
