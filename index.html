@@ -41,7 +41,9 @@
             // Función para renderizar las páginas
             function renderPage(pageNum) {
                 pdfDoc.getPage(pageNum).then(function(page) {
-                    const viewport = page.getViewport({ scale: 1 });  // Ajuste de escala por defecto
+                    const scale = 1.5;  // Ajusta la escala para hacer el PDF más visible
+                    const viewport = page.getViewport({ scale: scale });  // Vista con escala ajustada
+
                     const canvas = document.createElement('canvas');
                     const context = canvas.getContext('2d');
                     canvas.height = viewport.height;
@@ -80,9 +82,12 @@
 
             // Renderizar la primera página
             renderPage(1);
+        }).catch(function(error) {
+            console.error('Error cargando el PDF: ', error);
         });
     </script>
 </body>
 </html>
+
 
 
