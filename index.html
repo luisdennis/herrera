@@ -3,26 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo de PDF en HTML</title>
+    <title>Ver PDF en la misma página</title>
+
+    <!-- Código de seguimiento de Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WP4N2P558X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-WP4N2P558X');
+    </script>
+
 </head>
 <body>
-    <h1>Ver PDF en la página</h1>
-
-    <!-- Usando <embed> -->
-    <h2>Usando <embed>:</h2>
-    <embed src="ejemplo.pdf" type="application/pdf" width="600" height="400">
-
-    <hr>
-
-    <!-- Usando <iframe> -->
-    <h2>Usando <iframe>:</h2>
-    <iframe src="ejemplo.pdf" width="600" height="400"></iframe>
-
-    <hr>
-
-    <!-- Usando <object> -->
-    <h2>Usando <object>:</h2>
-    <object data="ejemplo.pdf" type="application/pdf" width="600" height="400"></object>
-
+    <h1>Ver PDF en la misma página</h1>
+    <iframe src="ejemplo.pdf" width="800" height="600"></iframe>
 </body>
 </html>
