@@ -19,6 +19,12 @@
             max-width: 100%;
             max-height: 100%;
         }
+        a {
+            position: absolute;
+            color: blue;
+            text-decoration: underline;
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
@@ -50,6 +56,25 @@
                     // Añadir el lienzo al contenedor
                     container.innerHTML = '';  // Limpiar contenido previo
                     container.appendChild(canvas);
+
+                    // Detectar y hacer los enlaces clickeables
+                    page.getAnnotations().then(function(annotations) {
+                        annotations.forEach(function(annotation) {
+                            if (annotation.subtype === 'Link') {
+                                // Hacer el enlace clickeable
+                                const link = document.createElement('a');
+                                link.href = annotation.url;
+                                link.target = "_blank"; // Abrir en nueva pestaña
+                                link.textContent = annotation.url;
+                                link.style.position = 'absolute';
+                                link.style.left = `${annotation.rect[0]}px`;
+                                link.style.top = `${annotation.rect[1]}px`;
+                                link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
+                                link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
+                                container.appendChild(link);
+                            }
+                        });
+                    });
                 });
             }
 
@@ -59,4 +84,5 @@
     </script>
 </body>
 </html>
+
 
