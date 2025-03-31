@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver PDF en la misma página</title>
-
-    <!-- Código de seguimiento de Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WP4N2P558X"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-WP4N2P558X');
-    </script>
-
+    <title>Ver PDF</title>
     <style>
-        /* Ajuste de contenedor para hacer el PDF más adaptativo */
+        /* Asegura que el PDF se ajuste bien a la pantalla */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         iframe {
             width: 100%;
-            height: 100vh; /* 100% de la altura visible */
+            height: 100vh;
             border: none;
         }
     </style>
 </head>
 <body>
-    <h1>Ver PDF en la misma página</h1>
-    <iframe src="ejemplo.pdf"></iframe>
+    <iframe src="ejemplo.pdf" type="application/pdf"></iframe>
 </body>
 </html>
