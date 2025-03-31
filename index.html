@@ -3,21 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver PDF en la misma página</title>
+    <title>Ver PDF con PDF.js</title>
 
-    <!-- Código de seguimiento de Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WP4N2P558X"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 
-        gtag('config', 'G-WP4N2P558X');
-    </script>
-
+    <style>
+        #pdf-container {
+            width: 100%;
+            height: 600px;
+            overflow: auto;
+        }
+    </style>
 </head>
 <body>
     <h1>Ver PDF en la misma página</h1>
-    <iframe src="ejemplo.pdf" width="800" height="600"></iframe>
+
+    <div id="pdf-container"></div>
+
+    <script>
+        const url = 'ejemplo.pdf'; // Ruta del archivo PDF
+
+        // Cargar el PDF
+        pdfjsLib.getDocument(url).promise.then(function (pdf) {
+            console.log('PDF cargado');
+            
+            // Obtenemos la primera página del PDF
+            pdf.getPage(1).then(function (page) {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale: scale });
+                
+                // Preparar el canvas donde se mostrará el PDF
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                document.getElementById('pdf-container').appendChild(canvas);
+                
+                // Renderizar la página en el canvas
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                });
+            });
+        }).catch(function (error) {
+            console.error('Error cargando el PDF: ', error);
+        });
+    </script>
 </body>
 </html>
